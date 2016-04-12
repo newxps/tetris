@@ -8,49 +8,52 @@ html {
 body {
 	padding:  0;
 	margin: 0;
+	font-family: arial,verdana,microsoft yahei;
+	color: #777;
 }
 
-#stage {
-	/*width: 500px;*/
-	height: 500px;
-	margin: 10px auto;
+#main {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#stage, #stage2 {
+	/*width: 300px;
+	height: 500px;*/
+	margin: 10px 10px;
 	border: 4px solid #aaa;
 	position: relative;
+	float: left;
 }
 
-#stage div, #next div {
-	width: 25px;
-	height: 25px;
+#stage div, #stage2 div, #next div {
+	width: 20px;
+	height: 20px;
 	float: left;
 	border: 1px solid #fff;
 	box-sizing: border-box;
 }
-#stage div.on {
+#stage div.on, #stage2 div.on {
 	background-color: #6cf;
 }
 
-#stage.pause div.on {
+#stage.pause div.on, #stage2.pause div.on {
 	background-color: #e0e0e0;
 }
 
 #next {
-	width: 100px;
-	height: 100px;
-	position: absolute;
-	left: 50%;
-	top: 100px;
-	margin-left: 400px;
+	width: 80px;
+	height: 80px;
+	float: left;
+	margin: 200px 20px;
 	/*border: 1px dashed #aaa;*/
 }
 
 #manual {
 	width: 150px;
 	/*height: 300px;*/
-	position: absolute;
-	padding: 10px;
-	left: 50%;
-	top: 0;
-	margin-left: -500px;
+	float: left;
+	/*margin-left: -500px;*/
 	margin-top: 100px;
 	border: 1px dashed #f70;
 	border-radius: 10px;
@@ -65,7 +68,10 @@ body {
 	margin: 10px;
 	background: #6cf;
 	color: #fff;
+	font-size: 12px;
 	border-radius: 10px;
+	height: 30px;
+	line-height: 30px;
 }
 
 #score-box span {

@@ -7,7 +7,6 @@
 </head>
 <body onselectstart="return false">
 	<div id="main">
-		<div id="stage"> </div>
 		<div id="manual">
 			<p>← 向左</p>
 			<p>↑ 变换</p>
@@ -15,43 +14,55 @@
 			<p>↓ 向下</p>
 			<p>space 瞬间移动</p>
 			<div id="score-box">
-				得分: <span id="score">0</span>
+				左边得分: <span id="score">0</span>
 			</div>
 			<a href="javascript:;" class="ball" onclick="tetris.pause()">暂停</a>
 			<a href="javascript:;" class="ball" onclick="tetris.start(); stage.className='';">继续</a>
 			<a href="javascript:;" class="ball" onclick="tetris.restart(); stage.className='';">重新开始</a>
 		</div>
-		<div id="next">
-			
-		</div>
+		<div id="next"> </div>
+
+		<div id="stage"> </div>
+		<div id="stage2"> </div>
 	</div>
 </body>
 <script src="./tetris.js"></script>
 <script>
-	var w = 15;
+	var w = 20;
+	var h = 25;
 
 	var score = document.getElementById('score');
 	var stage = document.getElementById('stage');
+	var stage2 = document.getElementById('stage2');
 	var next = document.getElementById('next');
-	stage.style.width = w*25 + 'px';
-
-	var tetris = new Tetris(stage, w).on('score', function(a, b) {
+	stage.style.width = w*20 + 'px';
+	stage.style.height = h*20 + 'px';
+	var tetris = new Tetris(w, h).on('score', function(a, b) {
 		score.innerHTML = +score.innerHTML + b*b*10 ;
 	})
 	.on('lose', function() {
-		if(confirm('游戏结束! 还想玩吗? 😘'))
-				this.restart();
+		stage.innerHTML = '<div style="width: 100%; font-size: 24px; text-align: center;">Game Over</div>';
 	})
 	.on('pause', function() {
 		stage.className = 'pause';
 	})
-	.on('start', function(tile) {
-		var html = ''
-		tile.forEach(function(e) {
-			html += e.replace(/0/g, '<div></div>').replace(/1/g, '<div style="background:#6cf"></div>');
-		});
-		next.innerHTML = html;
+	.on('start', function(nextTile) {
+		next.innerHTML = nextTile.join('').replace(/0/g, '<div></div>').replace(/1/g, '<div style="background:#6cf"></div>');
+	})
+	.on('render', function(res) {
+		stage.innerHTML = res.join('').replace(/0/g, '<div></div>').replace(/1/g, '<div class="on"></div>')
 	})
 	.start()
+
+	var w2 = 10;
+	var h2 = 15;
+	stage2.style.width = w2*20 + 'px';
+	stage2.style.height = h2*20 + 'px';
+	new Tetris(w2, h2).on('render', function(res) {
+		stage2.innerHTML = res.join('').replace(/0/g, '<div></div>').replace(/1/g, '<div class="on"></div>')
+	}).start()
+	.on('lose', function() {
+		stage2.innerHTML = '<div style="width: 100%; font-size: 24px; text-align: center;">Game Over</div>';
+	})
 </script>
 </html>

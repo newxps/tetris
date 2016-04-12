@@ -9,10 +9,9 @@
 
 	var tiles = [a, b, c, d, e, f, g, a, b, c, d, e, f, g];
 
-	var Tetris = function(el, w, h) {
+	var Tetris = function(w, h) {
 		this.w = w || 10;
 		this.h = h || 20;
-		this.el = el;
 		this._init();
 	};
 
@@ -32,7 +31,6 @@
 			});
 
 			this.tiles;
-
 
 			this.totalScore = 0;
 
@@ -94,7 +92,6 @@
 			if(this.running) return;
 			this.running = true;
 
-			// this.emit('start');
 			// 输出 4X4 的矩阵
 			var nextRow = this.nextTileObj.row, nextCol = this.nextTileObj.col;
 			this.emit('start', tiles[nextRow][nextCol].map(function(e) {
@@ -129,7 +126,7 @@
 							}
 						}
 
-						//触发得分函数
+						//触发得分事件
 						if(fullNum) {
 							self.totalScore += fullNum;
 							self.emit('score', self.totalScore, fullNum)
@@ -153,7 +150,7 @@
 		},
 
 		emit: function(type) {
-			if( ['start', 'pause', 'score', 'lose'].indexOf(type) === -1 ) return;
+			// if( ['start', 'pause', 'score', 'lose'].indexOf(type) === -1 ) return;
 			var arg = Array.prototype.slice.call(arguments, 1);
 
 			if( this.eventQueue && this.eventQueue[type] )
@@ -185,12 +182,13 @@
 		},
 
 		_render: function() {
-			var html = '';
 			var self = this;
-			this.layout.forEach(function(e, i) {
-				html += pad(e.toString(2), self.w + 2).substring(1, self.w + 1).replace(/0/g, '<div></div>').replace(/1/g, '<div class="on"></div>');
-			});
-			this.el.innerHTML = html;
+			if( this.eventQueue && this.eventQueue.render && this.eventQueue.render.length ) {
+				var res = this.layout.map(function(e) {
+					return pad(e.toString(2), self.w + 2).substring(1, self.w + 1)
+				});
+				this.emit('render', res);
+			}
 		},
 
 		_bind: function() {
@@ -242,7 +240,7 @@
 		},
 
 		_fall: function() {
-			if( this.n < 0 ) return;	// 模块还未出现按space就跑到最下面去了
+			if( this.n < 0 ) return;	// 防止模块还未出现按space就跑到最下面去了
 			this._mix(function() {
 				while( this.n <= this.layout.length - this.tile.length ) {
 					this.n++;
@@ -287,10 +285,10 @@
 
 	function fill(arr, p) {
 		for(var i = 0; i < arr.length; i++) arr[i] = p;
-		return arr
+		return arr;
 	}
 
-	// 将12bit的二进制数两边去掉一位, 得到10bit的数
+	// 将二进制数两边去掉一位, 得到10bit的数
 	function trim(num) {
 		var max = (1 << (num.toString(2).length - 1) ) - 1;
 		return (num >> 1) & max;
@@ -303,7 +301,7 @@
 
 	function rand(a, b) {
 		if(a == null) a = 0;
-		if(b == null) b = 8;
+		if(b == null) b = 8;	// 不能用 b = b || 8, 因为b可以为0
 		return Math.round(a + Math.random()*(b - a));
 	}
 
