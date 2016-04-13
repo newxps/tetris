@@ -9,9 +9,10 @@
 
 	var tiles = [a, b, c, d, e, f, g, a, b, c, d, e, f, g];
 
-	var Tetris = function(w, h) {
+	var Tetris = function(w, h, t) {
 		this.w = w || 10;
 		this.h = h || 20;
+		this.t = t || 500;
 		this._init();
 	};
 
@@ -136,7 +137,7 @@
 						self.start();
 					}
 				}
-			}, t || 500);
+			}, this.t);
 			return this;
 		},
 

@@ -29,7 +29,7 @@
 		<img src="https://flfwzgl.github.io/resume/img/fork.svg">
 	</a>
 
-	
+
 	<script src="./tetris.js"></script>
 	<script>
 		var w = 20;
@@ -56,7 +56,7 @@
 		.on('render', function(res) {
 			stage.innerHTML = res.join('').replace(/0/g, '<div></div>').replace(/1/g, '<div class="on"></div>')
 		})
-		.start()
+		.start();
 
 		var w2 = 10;
 		var h2 = 15;
