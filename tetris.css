@@ -10,35 +10,85 @@ body {
 	margin: 0;
 	font-family: arial,verdana,microsoft yahei;
 	color: #777;
+	background: #eee;
 }
 
 #main {
 	width: 1000px;
 	margin: 0 auto;
 }
+#main:after {
+	content: ' ';
+	display: block;
+	height: 0;
+	clear: both;
+}
 
-#stage, #stage2 {
+.stage {
 	/*width: 300px;
 	height: 500px;*/
 	margin: 10px 10px;
-	border: 4px solid #aaa;
+	border: 2px solid #444;
 	position: relative;
 	float: left;
+	background: #a1ad87;
 }
 
-#stage div, #stage2 div, #next div {
+.stage.gameover:after {
+	content: '游戏结束!';
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	line-height: 40px;
+	margin-top: -20px;
+	font-size: 20px;
+	color: #444;
+	text-align: center;
+	z-index: 1;
+}
+
+.stage div, #next div {
 	width: 20px;
 	height: 20px;
 	float: left;
-	border: 1px solid #fff;
+	position: relative;
+	/*border: 1px solid #fff;*/
 	box-sizing: border-box;
 }
-#stage div.on, #stage2 div.on {
-	background-color: #6cf;
+
+.stage div:before {
+	content: ' ';
+	position: absolute;
+	border: 2px solid #99a581;
+	left: 1px;
+	top: 1px;
+	right: 1px;
+	bottom: 1px;
 }
 
-#stage.pause div.on, #stage2.pause div.on {
-	background-color: #e0e0e0;
+.stage div:after {
+	content: ' ';
+	position: absolute;
+	background: #99a581;
+	left: 4px;
+	top: 4px;
+	right: 4px;
+	bottom: 4px;
+}
+
+.stage div.on:before {
+	/*background-color: #6cf;*/
+	border: 2px solid #444;
+}
+
+.stage div.on:after{
+	/*background-color: #6cf;*/
+	background: #444;
+}
+
+.stage.pause div.on {
+	/*background-color: #e0e0e0;*/
 }
 
 #next {
@@ -46,83 +96,76 @@ body {
 	height: 80px;
 	float: left;
 	margin: 200px 20px;
+	position: relative;
 	/*border: 1px dashed #aaa;*/
+}
+
+#next div.on:before {
+	content: ' ';
+	position: absolute;
+	border: 2px solid #444;
+	left: 1px;
+	top: 1px;
+	right: 1px;
+	bottom: 1px;
+}
+#next div.on:after {
+	content: ' ';
+	position: absolute;
+	background: #444;
+	left: 4px;
+	top: 4px;
+	right: 4px;
+	bottom: 4px;
 }
 
 #manual {
 	width: 150px;
-	/*height: 300px;*/
 	float: left;
-	/*margin-left: -500px;*/
 	margin-top: 100px;
-	border: 1px dashed #f70;
-	border-radius: 10px;
+	border: 2px solid #666;
 	color: #666;
 	font-family: arial, verdana, microsoft yahei;
 	text-align: center;
 }
 
 #score-box {
-	/*width: 100%;*/
 	line-height: 2;
 	margin: 10px;
-	background: #6cf;
+	background: #666;
 	color: #fff;
 	font-size: 12px;
-	border-radius: 10px;
+	border-radius: 2px;
 	height: 30px;
 	line-height: 30px;
 }
 
 #score-box span {
-	color: #268;
-}
-
-a {
-	color: #777;
-	font-size: 14px;
-	line-height: 2;
-	line-height: 1.8;
-	margin: 10px;
-	display: inline-block;
-	padding: 5px 10px;
-	text-decoration: none;
+	color: #eee;
 }
 
 
-.ball {
+
+.btn {
 	color: #777 !important;
 	position: relative;
-	transition: all .2s ease;
-}
-
-.ball:after {
-	content: ' ';
-	width: 50%;
-	height: 50%;
-	left: 25%;
-	top: 25%;
-	background: #f70;
-	position: absolute;
-	border-radius: 1000px;
-	transition: all .2s ease;
-	z-index: -20;
-	opacity: 0;
-}
-.ball:hover {
-	color: #fff !important;
 	text-decoration: none;
-}
-.ball:hover:after {
-	width: 100%;
-	height: 100%;
-	left: 0;
-	top: 0;
-	opacity: 1;
+	transition: all .2s ease;
+	border-radius: 5px;
+	background: #999;
+	color: #fff !important;
 }
 
+.btn:hover {
+	background: #777;
+}
 
 
+
+a {
+	color: #666;
+	font-size: 13px;
+}
 
 
 

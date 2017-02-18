@@ -165,6 +165,7 @@
 
 		pause: function() {
 			clearInterval(this.timer);
+			if(this.running === false) return;
 			this.running = false;
 			this.emit('pause');
 			return this;
