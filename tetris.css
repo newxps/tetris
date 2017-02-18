@@ -103,7 +103,7 @@ body {
 #next div.on:before {
 	content: ' ';
 	position: absolute;
-	border: 2px solid #444;
+	border: 2px solid #666;
 	left: 1px;
 	top: 1px;
 	right: 1px;
@@ -112,7 +112,7 @@ body {
 #next div.on:after {
 	content: ' ';
 	position: absolute;
-	background: #444;
+	background: #666;
 	left: 4px;
 	top: 4px;
 	right: 4px;
@@ -120,13 +120,14 @@ body {
 }
 
 #manual {
-	width: 150px;
+	width: 120px;
 	float: left;
 	margin-top: 100px;
 	border: 2px solid #666;
 	color: #666;
 	font-family: arial, verdana, microsoft yahei;
 	text-align: center;
+	font-size: 12px;
 }
 
 #score-box {
@@ -145,8 +146,8 @@ body {
 }
 
 
-
 .btn {
+	padding: 5px;
 	color: #777 !important;
 	position: relative;
 	text-decoration: none;
@@ -154,6 +155,8 @@ body {
 	border-radius: 5px;
 	background: #999;
 	color: #fff !important;
+	line-height: 30px;
+	font-size: 12px;
 }
 
 .btn:hover {
