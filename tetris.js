@@ -199,19 +199,19 @@
 				if( !self.work || !self.running ) return;
 				var code = e.keyCode;
 				if( code === 37 )
-					self._shift(-1);
+					self.left();
 				else if( code === 38 )
-					self._up();
+					self.rotate();
 				else if( code === 39 )
-					self._shift(1);
+					self.right();
 				else if( code === 40 )
-					self._down();
+					self.down();
 				else if( code === 32 )
-					self._fall();
+					self.fall();
 			});
 		},
 
-		_up: function() {
+		rotate: function() {
 			if( this.tile[this.row] === d ) return;
 			var bak = this.tile;
 			this._mix(function() {
@@ -219,6 +219,14 @@
 				if( !this._isAllowed() )
 					this.tile = bak;
 			});
+		},
+
+		left() {
+			this._shift(-1);
+		},
+
+		right() {
+			this._shift(1);
 		},
 
 		_shift: function(n) {
@@ -231,7 +239,7 @@
 			});
 		},
 
-		_down: function() {
+		down: function() {
 			this._mix(function() {
 				this.n++;
 				if( !this._isAllowed() ) {
@@ -241,7 +249,7 @@
 			})
 		},
 
-		_fall: function() {
+		fall: function() {
 			if( this.n < 0 ) return;	// 防止模块还未出现按space就跑到最下面去了
 			this._mix(function() {
 				while( this.n <= this.layout.length - this.tile.length ) {

@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Tetris</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="stylesheet" href="./tetris.css">
 </head>
 <body onselectstart="return false">
@@ -15,17 +16,32 @@
 			<p>↓ 向下</p>
 			<p>space 瞬间移动</p>
 			<div id="score-box">
-				左边得分: <span id="score">0</span>
+				左边得分:
+				<br>
+				<span id="score">0</span>
 			</div>
-			<a href="javascript:;" class="btn" onclick="tetris.pause()">暂停</a>
-			<a href="javascript:;" class="btn" onclick="tetris.start(); rmCls(stage, 'pause')">继续</a>
+			<a href="javascript:;" class="btn"
+				onclick="tetris.pause()"
+				ontouchstart="tetris.pause()">暂停</a>
+			<a href="javascript:;" class="btn"
+				onclick="tetris.start(); rmCls(stage, 'pause')"
+				ontouchstart="tetris.start(); rmCls(stage, 'pause')">继续</a>
 			<br/>
-			<a href="javascript:;" class="btn" onclick="tetris.restart(); stage.className='stage';">重新开始</a>
+			<a href="javascript:;" class="btn"
+				onclick="tetris.restart(); stage.className='stage';"
+				ontouchstart="tetris.restart(); stage.className='stage';">重新开始</a>
+			<div id="next"> </div>
 		</div>
-		<div id="next"> </div>
 
-		<div id="stage" class="stage"> </div>
+		<div id="stage" class="stage"><div></div></div>
 		<div id="stage2" class="stage"> </div>
+		<div id="manipulate">
+			<div class="left"></div>
+			<div class="right"></div>
+			<div class="up"></div>
+			<div class="down"></div>
+			<div class="fall">瞬间移动</div>
+		</div>
 	</div>
 	<p style="text-align:center">
 		<a href="http://demo.fanlinfeng.com">demo list</a>
@@ -35,6 +51,18 @@
 
 
 	<script>
+		document.addEventListener('gesturestart', function (e) {
+			e.preventDefault();
+		})
+		document.addEventListener('touchend', function(e) {
+			e.preventDefault();
+		})
+		// document.getElementById('manipulate').addEventListener('touchend', function(e) {
+		// 	e.stopPropagation();
+		// })
+
+
+
 		function addCls(e, cls) {
 			rmCls(e, cls);
 			e.className += ' ' + cls;
@@ -46,19 +74,27 @@
 				}).join(' ');
 			}
 		}
+		var isMobile = /android|iphone/i.test(navigator.userAgent)
 	</script>
 	<script src="./tetris.js"></script>
 	<script>
-		var w = 15;
-		var h = 25;
+		var w, h;
+		if(isMobile) {
+			w = 10, h = 20;
+		} else {
+			w = 15, h = 25;
+		}
 
 		var score = document.getElementById('score');
 		var stage = document.getElementById('stage');
 		var stage2 = document.getElementById('stage2');
 		var next = document.getElementById('next');
-		stage.style.width = w*20 + 'px';
-		stage.style.height = h*20 + 'px';
-		var tetris = new Tetris(w, h).on('score', function(a, b) {
+		var d = stage.getElementsByTagName('div')[0].offsetWidth;
+		stage.style.width = w*d + 'px';
+		stage.style.height = h*d + 'px';
+		next.style.width = 4*d + 'px';
+		next.style.height = 4*d + 'px';
+		var tetris = new Tetris(w, h, 800).on('score', function(a, b) {
 			score.innerHTML = +score.innerHTML + b*b*10 ;
 		})
 		.on('lose', function() {
@@ -75,16 +111,77 @@
 		})
 		.start();
 
-		var w2 = 10;
-		var h2 = 20;
-		stage2.style.width = w2*20 + 'px';
-		stage2.style.height = h2*20 + 'px';
-		new Tetris(w2, h2).on('render', function(res) {
-			stage2.innerHTML = res.join('').replace(/0/g, '<div></div>').replace(/1/g, '<div class="on"></div>')
-		}).start()
-		.on('lose', function() {
-			addCls(stage2, 'gameover');
-		})
+
+
+		var interval = (function() {
+			var startTime, timer, interval, cb;
+			return {
+				run: function(fn, t) {
+					cb = fn;
+					interval = t || 100;
+					startTime = Date.now();
+					timer = setInterval(function() {
+						fn && fn();
+					}, interval);
+				},
+				stop: function() {
+					timer && clearInterval(timer);
+					if(Date.now() - startTime < interval) {
+						cb && cb();
+					}
+				}
+			}
+		})();
+
+		if(isMobile) {
+			var btn;
+			var slice = [].slice;
+			var btns = slice.call(document.getElementById('manipulate').getElementsByTagName('div'));
+			btns.forEach(function(btn) {
+				btn.addEventListener('touchstart', function(e) {
+					var cls = this.className;
+					addCls(this, 'active')
+					switch(cls) {
+						case 'left':
+							return interval.run(function() {
+								tetris.left();
+							})
+						case 'right':
+							return interval.run(function() {
+								tetris.right();
+							})
+						case 'up':
+							return interval.run(function() {
+								tetris.rotate();
+							})
+						case 'down':
+							return interval.run(function() {
+								tetris.down();
+							}, 70)
+						case 'fall':
+							tetris.fall();
+					}
+				});
+
+
+				btn.addEventListener('touchend', function(e) {
+					rmCls(this, 'active')
+					interval.stop();
+				})
+			})
+		} else {
+			var w2 = 10;
+			var h2 = 20;
+			stage2.style.width = w2*d + 'px';
+			stage2.style.height = h2*d + 'px';
+			new Tetris(w2, h2, 800).on('render', function(res) {
+				stage2.innerHTML = res.join('').replace(/0/g, '<div></div>').replace(/1/g, '<div class="on"></div>')
+			}).start()
+			.on('lose', function() {
+				addCls(stage2, 'gameover');
+			})
+		}
+
 	</script>
 </body>
 </html>

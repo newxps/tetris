@@ -11,10 +11,12 @@ body {
 	font-family: arial,verdana,microsoft yahei;
 	color: #777;
 	background: #eee;
+	-webkit-touch-callout: none !important;
+	-webkit-user-select: none !important;
 }
 
 #main {
-	width: 1000px;
+	width: 680px;
 	margin: 0 auto;
 }
 #main:after {
@@ -92,10 +94,8 @@ body {
 }
 
 #next {
-	width: 80px;
-	height: 80px;
-	float: left;
-	margin: 200px 20px;
+	/*float: left;*/
+	margin: 10px auto;
 	position: relative;
 	/*border: 1px dashed #aaa;*/
 }
@@ -103,7 +103,7 @@ body {
 #next div.on:before {
 	content: ' ';
 	position: absolute;
-	border: 2px solid #666;
+	border: 2px solid #444;
 	left: 1px;
 	top: 1px;
 	right: 1px;
@@ -112,7 +112,7 @@ body {
 #next div.on:after {
 	content: ' ';
 	position: absolute;
-	background: #666;
+	background: #444;
 	left: 4px;
 	top: 4px;
 	right: 4px;
@@ -122,28 +122,122 @@ body {
 #manual {
 	width: 120px;
 	float: left;
-	margin-top: 100px;
+	margin-top: 10px;
 	border: 2px solid #666;
-	color: #666;
+	background: #a1ad87;
+	color: #444;
 	font-family: arial, verdana, microsoft yahei;
 	text-align: center;
 	font-size: 12px;
 }
 
 #score-box {
-	line-height: 2;
+	line-height: 1.5;
 	margin: 10px;
-	background: #666;
+	background: #444;
 	color: #fff;
 	font-size: 12px;
 	border-radius: 2px;
-	height: 30px;
-	line-height: 30px;
+	/*height: 30px;*/
+	/*line-height: 30px;*/
 }
 
 #score-box span {
 	color: #eee;
 }
+
+#manipulate {
+	width: 100%;
+	height: 160px;
+	float: left;
+	position: relative;
+	/*border-top: 1px solid #666;*/
+	display: none;
+}
+
+#manipulate div{
+	border-radius: 100%;
+	background: #eac31b;
+	text-align: center;
+	color: #eee;
+	position: absolute;
+	border: 1px solid #999;
+}
+.left, .right, .up, .down {
+	width: 55px;
+	height: 55px;
+}
+
+.fall {
+	width: 80px;
+	height: 80px;
+	top: 35px;
+	line-height:80px;
+	font-size: 12px;
+}
+#manipulate div.active {
+	box-shadow: 0 0 10px #666 inset;
+}
+
+.left {
+	right: 100px;
+	top: 45px;
+}
+
+.right {
+	right: 10px;
+	top: 45px;
+}
+
+.up {
+	right: 55px;
+	top: 0px;
+}
+.down {
+	right: 55px;
+	top: 90px;
+}
+
+.left:after, .right:after, .up:after, .down:after {
+	content: ' ';
+	width: 0;
+	height: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+.left:after {
+	border-right: 8px solid #eee;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	margin-left: -5px;
+	margin-top: -8px;
+}
+.right:after {
+	border-left: 8px solid #eee;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	margin-left: -2px;
+	margin-top: -8px;
+}
+.up:after {
+	border-bottom: 8px solid #eee;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	margin-left: -8px;
+	margin-top: -6px;
+}
+
+.down:after {
+	border-top: 8px solid #eee;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	margin-left: -8px;
+	margin-top: -2px;
+}
+
+
 
 
 .btn {
@@ -153,14 +247,14 @@ body {
 	text-decoration: none;
 	transition: all .2s ease;
 	border-radius: 5px;
-	background: #999;
+	background: #777;
 	color: #fff !important;
 	line-height: 30px;
 	font-size: 12px;
 }
 
 .btn:hover {
-	background: #777;
+	background: #666;
 }
 
 
@@ -170,11 +264,60 @@ a {
 	font-size: 13px;
 }
 
+p {
+	margin: 10px auto;
+}
 
 
 
 
+@media screen and (max-width: 425px) {
+	#main {
+		width: 260px !important;
+	}
+	#next {
+		/*display: none;*/
+	}
+	#manual {
+		width: 80px !important;
+		border: 1px solid #666;
+	}
+	#manual p {
+		display: none;
+	}
+	#next div {
+		width: 14px !important;
+		height: 14px !important;
+	}
+	#stage {
+		border: 1px solid #666;
+	}
+	#stage2 {
+		display: none;
+	}
+	#manipulate {
+		display: block;
+	}
 
+	.stage div {
+		width: 14px !important;
+		height: 14px !important;
+	}
+	.stage div:before {
+		border: 1px solid #99a581;
+	}
+	.stage div:after {
+		left: 3px;
+		top: 3px;
+		right: 3px;
+		bottom: 3px;
+	}
+
+	.stage div.on:before {
+		/*background-color: #6cf;*/
+		border: 1px solid #444 !important;
+	}
+}
 
 
 
