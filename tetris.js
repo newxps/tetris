@@ -196,7 +196,6 @@
 		_bind: function() {
 			var self = this;
 			bind(document, 'keydown', function(e) {
-				if( !self.work || !self.running ) return;
 				var code = e.keyCode;
 				if( code === 37 )
 					self.left();
@@ -212,6 +211,7 @@
 		},
 
 		rotate: function() {
+			if( !this.work || !this.running ) return;
 			if( this.tile[this.row] === d ) return;
 			var bak = this.tile;
 			this._mix(function() {
@@ -230,6 +230,7 @@
 		},
 
 		_shift: function(n) {
+			if( !this.work || !this.running ) return;
 			var bak = this.tile;
 			this._mix(function() {
 				this.tile = this.tile.map(function(e) {
@@ -240,6 +241,7 @@
 		},
 
 		down: function() {
+			if( !this.work || !this.running ) return;
 			this._mix(function() {
 				this.n++;
 				if( !this._isAllowed() ) {
@@ -250,6 +252,7 @@
 		},
 
 		fall: function() {
+			if( !this.work || !this.running ) return;
 			if( this.n < 0 ) return;	// 防止模块还未出现按space就跑到最下面去了
 			this._mix(function() {
 				while( this.n <= this.layout.length - this.tile.length ) {
