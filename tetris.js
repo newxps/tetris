@@ -221,11 +221,11 @@
 			});
 		},
 
-		left() {
+		left: function() {
 			this._shift(-1);
 		},
 
-		right() {
+		right: function() {
 			this._shift(1);
 		},
 
